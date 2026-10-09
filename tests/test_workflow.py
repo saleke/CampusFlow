@@ -68,6 +68,13 @@ class TestWorkflowAndLifecycle(unittest.TestCase):
         self.assertEqual(report["status"]["open"], 2)
         self.assertEqual(report["status"]["in_progress"], 1)
         self.assertEqual(report["priority"]["critical"], 1)
+        
+    def test_assign_ticket_strips_whitespace(self):
+    """Verify that leading/trailing spaces are cleaned before assignment."""
+    assign_ticket(self.tickets, "T001", "  Charlie  ")
+    # It should save as "Charlie", not "  Charlie  "
+    self.assertEqual(self.tickets[0]["assigned_to"], "Charlie")
+
 
 if __name__ == '__main__':
     unittest.main()
