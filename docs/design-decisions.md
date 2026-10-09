@@ -1,12 +1,15 @@
 # Design Decisions - CampusFlow
 
 ## 1. Responsibilities
-* **Engineer A (Name):** Ticket creation, input validation, priority engine, and matching tests.
-* **Engineer B (Name):** Assignment, lifecycle, queue, reports, and matching tests.
+* **Engineer A (Omafu samuel):** Ticket creation, input validation, priority engine, and matching tests.
+* **Engineer B (Aleke Solomon):** Assignment, lifecycle, queue, reports, and matching tests.
 * **Shared:** JSON storage and CLI menu integration.
 
 ## 2. Core Data Structure
 A single ticket will be represented as a standard Python dictionary:
+
+Engineer A and Engineer B work in a shared Git repository, and had alread agreed that the ticket collection will be a dictionary keyed by ticket ID?
+
 {
   "id": "T001",
   "title": "...",
