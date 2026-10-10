@@ -119,6 +119,7 @@ def _next_ticket_id(tickets):
             number = int(ticket_id[1:])
 
             if number > highest_number:
+
                 highest_number = number
 
     return f"T{highest_number + 1:03d}"
@@ -162,6 +163,5 @@ def create_ticket(
         "assigned_to": None,
     }
 
-    # Commit only after the ticket is fully validated and constructed.
     tickets[ticket_id] = ticket
     return ticket
