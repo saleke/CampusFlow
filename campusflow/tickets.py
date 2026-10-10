@@ -106,20 +106,23 @@ def calculate_priority(urgency: str, affected_users: int) -> str:
         return "medium"
     return "low"
 
-def _next_ticket_id(tickets: Mapping[str, Any]) -> str:
-    """Find the first unused sequential ID in the T001, T002, ... format."""
-    used_numbers: set[int] = set()
 
-    for key in tickets:
-        if isinstance(key, str) and len(key) > 1 and key.startswith("T"):
-            suffix = key[1:]
-            if suffix.isdigit():
-                used_numbers.add(int(suffix))
+def _next_ticket_id(tickets):
+    highest_number = 0
 
-    number = 1
-    while number in used_numbers:
-        number += 1
-    return f"T{number:03d}"
+    for ticket_id in tickets:
+        if (
+            isinstance(ticket_id, str)
+            and ticket_id.startswith("T")
+            and ticket_id[1:].isdigit()
+        ):
+            number = int(ticket_id[1:])
+
+            if number > highest_number:
+                highest_number = number
+
+    return f"T{highest_number + 1:03d}"
+
 
 
 def create_ticket(

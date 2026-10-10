@@ -97,7 +97,7 @@ class TestCreateTicket(unittest.TestCase):
         )
         self.assertIs(self.tickets["T001"], ticket)
 
-    def test_ids_are_unique_and_fill_first_gap(self):
+    def test_ids_continue_after_highest_existing_id(self):
         self.tickets.update({
             "T001": {"id": "T001"},
             "T003": {"id": "T003"},
@@ -111,7 +111,7 @@ class TestCreateTicket(unittest.TestCase):
             },
             self.tickets,
         )
-        self.assertEqual(ticket["id"], "T002")
+        self.assertEqual(ticket["id"], "T004")
 
     def test_invalid_creation_does_not_change_collection(self):
         before = dict(self.tickets)
@@ -131,6 +131,23 @@ class TestCreateTicket(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Missing required"):
             create_ticket({"title": "Wi-Fi issue"}, self.tickets)
         self.assertEqual(self.tickets, {})
+
+    def test_id_supports_numbers_above_999(self):
+        tickets = {
+            "T999": {"id": "T999"},
+        }
+
+        ticket = create_ticket(
+            {
+                "title": "Network outage",
+                "category": "Network",
+                "urgency": "high",
+                "affected_users": 12,
+            },
+            tickets,
+        )
+
+        self.assertEqual(ticket["id"], "T1000")
 
 
 
