@@ -1,7 +1,21 @@
 # Design Decisions - CampusFlow
 
 ## 1. Responsibilities
-* **Engineer A (Name):** Ticket creation, input validation, priority engine, and matching tests.
+### Engineer A — Ticket Creation and Priority Engine
+
+**Implementation decision**
+
+I chose to store tickets in a dictionary using the ticket ID as the key. Each ticket contains its title, category, urgency, number of affected users, calculated priority, status, and assigned staff member. This makes it straightforward to retrieve a ticket by its unique ID.
+
+I also separated input validation from priority calculation so that invalid data is rejected before a ticket is added to the collection.
+
+**Relevant test**
+I tested that creating a ticket with invalid data does not modify the ticket collection. This verifies that the system rejects invalid input without leaving an incomplete ticket behind.
+
+**What I learned**
+I learned the importance of validating data before changing the system's state and testing both successful and unsuccessful operations.
+
+
 * **Engineer B (Name):** Assignment, lifecycle, queue, reports, and matching tests.
 * **Shared:** JSON storage and CLI menu integration.
 
