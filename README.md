@@ -6,7 +6,7 @@ CampusFlow is a Python command-line technical support ticket manager built for t
 
 ## Team Contributions and Roles
 
-This project was built collaboratively by a two-person engineering team within a six-hour sprint checkpoint.
+This project was built collaboratively by a two-person engineering team within a six-hour sprint checkpoint Given by HOC.
 
 ### Engineer A
 * **Ownership Areas:** Ticket creation (F1), input validation, automatic priority calculation engine, and creation unit tests.
