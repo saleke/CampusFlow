@@ -31,15 +31,22 @@ A single ticket will be represented as a standard Python dictionary:
   "status": "open",
   "assigned_to": None
 }
-All tickets will live inside a master **list of dictionaries** `[]`.
+All tickets live inside a master **dictionary keyed by ticket ID** `{"T001": {...}}`.
+This makes lookups by ID O(1) and is the format written to `data/tickets.json`.
+
+> Merge note: Engineer B's workflow functions originally assumed a list of
+> tickets. To merge both halves safely, the workflow functions now accept
+> **either** the dictionary-keyed collection **or** a plain list. Legacy JSON
+> files stored as a list are normalized to the dictionary format on load.
 
 ## 3. Function Contracts (How our modules interact)
-* `create_ticket(tickets_list, title, category, urgency, affected_users) -> dict`
-  * Raises `ValueError` if input validation fails.
+* `create_ticket(ticket_data, tickets) -> dict`
+  * `ticket_data` is a mapping with `title`, `category`, `urgency`, and `affected_users`.
+  * Raises `ValueError` if input validation fails; only mutates `tickets` on success.
 * `calculate_priority(urgency, affected_users) -> str`
   * Returns: 'critical', 'high', 'medium', or 'low'.
-* `assign_ticket(tickets_list, ticket_id, staff_name) -> bool`
-  * Returns `True` if successful, raises `ValueError` if ID doesn't exist.
-* `update_status(tickets_list, ticket_id, new_status) -> bool`
-  * Enforces state machine transitions.
+* `assign_ticket(tickets, ticket_id, staff_name) -> bool`
+  * Returns `True` if successful, raises `ValueError` if the ID doesn't exist.
+* `update_status(ticket, new_status) -> bool`
+  * Enforces state machine transitions and raises `ValueError` on invalid moves.
 
