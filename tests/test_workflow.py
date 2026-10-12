@@ -75,5 +75,38 @@ class TestWorkflowAndLifecycle(unittest.TestCase):
         # It should save as "Charlie", not "  Charlie  "
         self.assertEqual(self.tickets[0]["assigned_to"], "Charlie")
 
+
+class TestWorkflowDictCollection(unittest.TestCase):
+    """The application stores tickets in a dict keyed by ID; workflow must support it."""
+
+    def setUp(self):
+        self.tickets = {
+            "T001": {"id": "T001", "title": "Wi-Fi down", "priority": "critical", "status": "open", "assigned_to": None},
+            "T002": {"id": "T002", "title": "Broken mouse", "priority": "low", "status": "in_progress", "assigned_to": "Alice"},
+        }
+
+    def test_assign_ticket_in_dict(self):
+        self.assertTrue(assign_ticket(self.tickets, "T001", "Charlie"))
+        self.assertEqual(self.tickets["T001"]["assigned_to"], "Charlie")
+
+    def test_assign_unknown_id_in_dict_raises(self):
+        with self.assertRaises(ValueError):
+            assign_ticket(self.tickets, "T999", "Charlie")
+
+    def test_queue_from_dict(self):
+        queue = get_prioritized_queue(self.tickets)
+        self.assertEqual([t["id"] for t in queue], ["T001", "T002"])
+
+    def test_report_from_dict(self):
+        report = generate_report(self.tickets)
+        self.assertEqual(report["total"], 2)
+        self.assertEqual(report["status"]["open"], 1)
+        self.assertEqual(report["status"]["in_progress"], 1)
+
+    def test_update_status_rejects_unknown_status(self):
+        with self.assertRaises(ValueError):
+            update_status(self.tickets["T002"], "bogus")
+
+
 if __name__ == '__main__':
     unittest.main()
