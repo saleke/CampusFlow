@@ -1,3 +1,13 @@
+### Engineer A — AI Learning Record
+
+**Task:** Ticket ID generation and priority calculation.
+
+**AI suggestion:** I explored an approach to generating ticket IDs based on the number of tickets already stored.
+
+**My verification and improvement:** I considered what would happen if ticket IDs had gaps or the highest ID was greater than T999. I improved the approach to find the highest existing numeric ID suffix and generate the next ID from it. I tested that IDs continue correctly after gaps and that T999 is followed by T1000.
+
+**What I learned:** I learned not to accept an AI-generated solution without considering edge cases. I also learned to write tests for boundary conditions instead of checking only normal inputs.
+
 
 ### Engineer B
 
